@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <algorithm>
 
 // Define macros for error messages
 #define KEY_NOT_FOUND(key) "Key not found: " + key
@@ -17,9 +18,9 @@
 
 class ConfigParser {
   public:
-    class ConfigParseException : public std::exception {
+    class ConfigParserException : public std::exception {
       public:
-        ConfigParseException(const std::string& message) : msg(message) {}
+        ConfigParserException(const std::string& message) : msg(message) {}
         virtual const char* what() const noexcept override {
             return msg.c_str();
         }
@@ -28,7 +29,7 @@ class ConfigParser {
     };
 
     // Constructor
-    ConfigParser(const std::string& filename);
+    ConfigParser() = default;
     ~ConfigParser();
 
     // Get a value from the config
@@ -42,11 +43,12 @@ class ConfigParser {
         iss >> value;
 
         if (iss.fail())
-          throw ConfigParseException(INVALID_KEY(key));
+          throw ConfigParserException(INVALID_KEY(key));
         return value;
       } else {
-        throw ConfigParseException(KEY_NOT_FOUND(key));
+        throw ConfigParserException(KEY_NOT_FOUND(key));
       }
+      return T();
     }
 
     // load config from file
