@@ -16,3 +16,5 @@ endif()
 add_library(config_parser SHARED ${SOURCES})
 
 
+enable_testing()
+add_subdirectory(tests)
