@@ -13,8 +13,7 @@ if (BUILD_EXEC)
   add_executable(config_parser_sample ${MAIN} ${SOURCES})
 endif()
 
-add_library(config_parser SHARED ${SOURCES})
-
+add_library(config_parser ${SOURCES})
 
 enable_testing()
 add_subdirectory(tests)

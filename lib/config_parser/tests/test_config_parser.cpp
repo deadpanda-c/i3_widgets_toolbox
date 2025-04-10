@@ -1,9 +1,12 @@
 #include "ConfigParser.hpp"
 #include <gtest/gtest.h>
 
+#ifndef __CONFIG_PARSER_TEST__
 #define CONFIG_FILE "../../tests/test_config.txt"
 #define CONFIG_FILE_WITH_SPACES "../../tests/test_config_with_whitespaces.txt"
 #define EMPTY_CONFIG_FILE "../../tests/test_empty_config.txt"
+#define CONFIG_FILE_WITH_COMMENTS "../../tests/test_config_with_comments.txt"
+#endif
 
 TEST(ConfigParserTest, ParseConfigFile)
 {
@@ -53,10 +56,12 @@ TEST(ConfigParserTest, ConfigWithComments)
 {
   ConfigParser parser;
 
-  std::string key = "key_with_comment";
-  std::string value = "value_with_comment";
-  parser.loadConfig(CONFIG_FILE);
+  std::string key = "hello";
+  std::string value = "world";
+
+  parser.loadConfig(CONFIG_FILE_WITH_COMMENTS);
   std::string parsedValue = parser.get<std::string>(key);
 
-
+  EXPECT_EQ(parsedValue, value) << "Parsed value does not match expected value.";
 }
+
